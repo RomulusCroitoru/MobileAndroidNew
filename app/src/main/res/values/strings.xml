@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MobileNewProject</string>
+    <string name="press_me">Press Me</string>
+    <string name="register">Register</string>
+</resources>
