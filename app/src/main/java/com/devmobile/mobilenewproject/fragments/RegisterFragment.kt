@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.devmobile.mobilenewproject.R
 
+// RegisterFragment.kt
 class RegisterFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,

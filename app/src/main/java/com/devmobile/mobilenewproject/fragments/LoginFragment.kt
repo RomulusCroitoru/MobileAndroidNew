@@ -18,7 +18,7 @@ class LoginFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
         return view
     }
-
+    // Go to Register Fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -27,6 +27,7 @@ class LoginFragment: Fragment() {
 
     }
 
+    // Go to Register Fragment
     private fun goToRegister() {
         val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
         findNavController().navigate(action)
