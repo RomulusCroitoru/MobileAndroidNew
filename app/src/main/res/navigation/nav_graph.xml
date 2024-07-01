@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_productsFragments"
+            app:destination="@id/productsFragments" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.devmobile.mobilenewproject.fragments.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register"/>
+    <fragment
+        android:id="@+id/productsFragments"
+        android:name="com.devmobile.mobilenewproject.fragments.ProductsFragments"
+        android:label="ProductsFragments"
+        tools:layout="@layout/fragment_products"/>
 </navigation>
