@@ -38,11 +38,13 @@ android {
 
 dependencies {
 
-        val nav_version = "2.7.7"
+    // Kotlin
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
-        // Kotlin
-        implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-        implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation(libs.volley)
+
+    implementation(libs.gson)
 
 
     implementation(libs.androidx.core.ktx)

@@ -1,5 +1,6 @@
 package com.devmobile.mobilenewproject.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.devmobile.mobilenewproject.R
-import com.devmobile.mobilenewproject.adapters.ProductListAdapter
+import com.devmobile.mobilenewproject.adapters.CartItemListAdapter
+import com.devmobile.mobilenewproject.models.CartItemModel
 import com.devmobile.mobilenewproject.models.CategoryModel
 import com.devmobile.mobilenewproject.models.ProductModel
+import com.devmobile.mobilenewproject.models.api.ProductAPIResponse
+import com.devmobile.mobilenewproject.utils.extensions.logErrorMessage
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class ProductsFragments : Fragment() {
+
+    private val cartItemList by lazy {
+         ArrayList<CartItemModel>()
+    }
+    private val adapter by lazy {
+        CartItemListAdapter(cartItemList)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,90 +37,79 @@ class ProductsFragments : Fragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_products,container,false)
 
-
+// se va creea view ul fragmentului
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+
+        getProducts()
     }
     private fun setupRecyclerView() {
 
         val layoutManager = LinearLayoutManager(context)
 
-        //array de elemente category si product
-        val productList = listOf(
-
-            CategoryModel(
-                name = "Category name 1",
-                description = "Category description 1"
-            ),
-            ProductModel(
-                name = "Product name 1",
-                description = "Product description 1"
-            ),
-            ProductModel(
-                name = "Product name 2",
-                description = "Product description 2"
-            ),
-            ProductModel(
-                name = "Product name 3",
-                description = "Product description 3"
-            ),
-            CategoryModel(
-                name = "Category name 2",
-                description = "Category description 2"
-            ),
-            ProductModel(
-                name = "Product name 4",
-                description = "Product description 4"
-            ),
-            ProductModel(
-                name = "Product name 5",
-                description = "Product description 5"
-            ),
-            CategoryModel(
-                name = "Category name 3",
-                description = "Category description 3"
-            ),
-            ProductModel(
-                name = "Product name 6",
-                description = "Product description 6"
-            ),
-            CategoryModel(
-                name = "Category name 4",
-                description = "Category description 4"
-            ),
-            ProductModel(
-                name = "Product name 7",
-                description = "Product description 7"
-            ),
-            ProductModel(
-                name = "Product name 8",
-                description = "Product description 8"
-            ),
-            CategoryModel(
-                name = "Category name 5",
-                description = "Category description 5"
-            ),
-            ProductModel(
-                name = "Product name 9",
-                description = "Product description 9"
-            ),
-            ProductModel(
-                name = "Product name 10",
-                description = "Product description 10"
-            ),
-        )
-
-        val adapter = ProductListAdapter(productList)
-
-        //cautam id-ul rv_products
+        //cautam id-ul rv_products si le vom afisa din fragment ProductsFragment
         view?.findViewById<RecyclerView>(R.id.rv_products)?.apply {
             this.layoutManager = layoutManager
-            this.adapter = adapter
+            this.adapter = this@ProductsFragments.adapter
         }
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
+    private  fun getProducts()
+    {
+
+        // Instantiate the RequestQueue. (coada de request apelate secvential)
+        val queue = Volley.newRequestQueue(context)
+        val url = "https://fakestoreapi.com/products"
+
+        // Request a string response from the provided URL. (apelare api si callback pt raps/eroare)
+        val stringRequest = StringRequest(
+        Request.Method.GET, url,
+        { response ->
+            // Display the first 500 characters of the response string.
+            //"Response".logErrorMessage()
+            handleProductsResponse(response)
+        },
+        {
+            "That didn't work!".logErrorMessage()
+        })
+
+            // Add the request to the RequestQueue.
+            queue.add(stringRequest)
 
     }
+
+    private fun handleProductsResponse(response: String) {
+
+        val type = object : TypeToken<List<ProductAPIResponse>>() {}.type
+        val responseJsonArray = Gson().fromJson<List<ProductAPIResponse>>(response, type)
+
+        //din lista de produse vreau sa extrag liste de categorii
+            responseJsonArray
+            .groupBy { it.category }
+            .forEach {
+                val categoryModel = CategoryModel(
+                    name = it.key,
+                    description = it.key,
+                )
+
+                val products = it.value.map { productApi ->
+                    ProductModel(
+                        name = productApi.name,
+                        description = productApi.description,
+                    )
+                }
+
+                cartItemList.add(categoryModel)
+                cartItemList.addAll(products)
+
+
+            }
+
+        adapter.notifyItemRangeInserted(0, cartItemList.size)
+    }
+
+}

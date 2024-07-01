@@ -12,7 +12,7 @@ import com.devmobile.mobilenewproject.models.CategoryModel
 import com.devmobile.mobilenewproject.models.ProductModel
 import com.devmobile.mobilenewproject.utils.extensions.logErrorMessage
 
-class ProductListAdapter(
+class CartItemListAdapter(
     private val cartItemList: List<CartItemModel>
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -23,6 +23,7 @@ class ProductListAdapter(
     //suprascriem metoda getItemViewTipe si preluam key-ul din enum
     override fun getItemViewType(position: Int) = cartItemList[position].type.key
 
+    //scroll create viewholder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         //obtinem contextul in care se gaseste parintele (parent)
         val inflater = LayoutInflater.from(parent.context)
@@ -45,8 +46,7 @@ class ProductListAdapter(
             }
             else -> super.createViewHolder(parent, viewType)
 
-        }
-
+       }
 
     }
 
