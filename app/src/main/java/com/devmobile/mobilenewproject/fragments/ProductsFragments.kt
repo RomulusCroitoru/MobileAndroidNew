@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.devmobile.mobilenewproject.R
 import com.devmobile.mobilenewproject.adapters.CartItemListAdapter
 import com.devmobile.mobilenewproject.models.CartItemModel
 import com.devmobile.mobilenewproject.models.CategoryModel
 import com.devmobile.mobilenewproject.models.ProductModel
-import com.devmobile.mobilenewproject.models.api.ProductAPIResponse
+import com.devmobile.mobilenewproject.models.api.ProductAPIResponseModel
+import com.devmobile.mobilenewproject.utils.extensions.VolleyRequestQueue
 import com.devmobile.mobilenewproject.utils.extensions.logErrorMessage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -61,8 +61,6 @@ class ProductsFragments : Fragment() {
     private  fun getProducts()
     {
 
-        // Instantiate the RequestQueue. (coada de request apelate secvential)
-        val queue = Volley.newRequestQueue(context)
         val url = "https://fakestoreapi.com/products"
 
         // Request a string response from the provided URL. (apelare api si callback pt raps/eroare)
@@ -78,14 +76,16 @@ class ProductsFragments : Fragment() {
         })
 
             // Add the request to the RequestQueue.
-            queue.add(stringRequest)
+            //folosesc coada noastra
+            VolleyRequestQueue.addToRequestQueue(stringRequest)
 
     }
 
     private fun handleProductsResponse(response: String) {
 
-        val type = object : TypeToken<List<ProductAPIResponse>>() {}.type
-        val responseJsonArray = Gson().fromJson<List<ProductAPIResponse>>(response, type)
+        //deserializare json in lista de produse
+        val type = object : TypeToken<List<ProductAPIResponseModel>>() {}.type
+        val responseJsonArray = Gson().fromJson<List<ProductAPIResponseModel>>(response, type)
 
         //din lista de produse vreau sa extrag liste de categorii
             responseJsonArray

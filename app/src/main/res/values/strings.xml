@@ -3,4 +3,8 @@
     <string name="press_me">Press Me</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="authentication_hint_username">Username</string>
+    <string name="authentication_hint_password">Password</string>
+    <string name="authentication_invalid_username">Invalid username</string>
+    <string name="authentication_invalid_password">Invalid password</string>
 </resources>

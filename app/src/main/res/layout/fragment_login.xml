@@ -9,12 +9,33 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintWidth_percent="0.8"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
+
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/authentication_hint_username"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/default_space_size"/>
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/authentication_hint_password"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/default_space_size"/>
 
         <Button
             android:id="@+id/btn_login"
