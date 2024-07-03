@@ -13,6 +13,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.devmobile.mobilenewproject.BuildConfig
 import com.devmobile.mobilenewproject.R
+import com.devmobile.mobilenewproject.data.repositories.ProductRepository
 import com.devmobile.mobilenewproject.models.api.LoginAPIRequestModel
 import com.devmobile.mobilenewproject.models.api.LoginAPIResponseModel
 import com.devmobile.mobilenewproject.utils.extensions.VolleyRequestQueue
@@ -49,7 +50,13 @@ class LoginFragment: Fragment() {
         }
 
         val button = view.findViewById<Button>(R.id.btn_register)
-        button.setOnClickListener {goToRegister()}
+        button.setOnClickListener {
+            //goToRegister()
+
+            ProductRepository.getCategoryWithProducts {categoriesWithProducts ->
+                "Data found".logErrorMessage()
+            }
+        }
 
         view.findViewById<Button>(R.id.btn_login).setOnClickListener {
             doLogin()

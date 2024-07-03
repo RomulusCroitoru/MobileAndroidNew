@@ -12,12 +12,15 @@ import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.devmobile.mobilenewproject.R
 import com.devmobile.mobilenewproject.adapters.CartItemListAdapter
+import com.devmobile.mobilenewproject.data.repositories.ProductRepository
 import com.devmobile.mobilenewproject.models.CartItemModel
 import com.devmobile.mobilenewproject.models.CategoryModel
 import com.devmobile.mobilenewproject.models.ProductModel
 import com.devmobile.mobilenewproject.models.api.ProductAPIResponseModel
+import com.devmobile.mobilenewproject.models.db.ProductDBModel
 import com.devmobile.mobilenewproject.utils.extensions.VolleyRequestQueue
 import com.devmobile.mobilenewproject.utils.extensions.logErrorMessage
+import com.devmobile.mobilenewproject.utils.extensions.showToast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -87,6 +90,11 @@ class ProductsFragments : Fragment() {
         val type = object : TypeToken<List<ProductAPIResponseModel>>() {}.type
         val responseJsonArray = Gson().fromJson<List<ProductAPIResponseModel>>(response, type)
 
+        responseJsonArray.getOrNull(0)?.let { responseProduct ->
+            insertProductToDB(responseProduct)
+
+        }
+
         //din lista de produse vreau sa extrag liste de categorii
             responseJsonArray
             .groupBy { it.category }
@@ -110,6 +118,12 @@ class ProductsFragments : Fragment() {
             }
 
         adapter.notifyItemRangeInserted(0, cartItemList.size)
+    }
+
+    private fun insertProductToDB(productModel: ProductAPIResponseModel) {
+        ProductRepository.insert(productModel){
+            "Product successfully added to DB".showToast(context)
+        }
     }
 
 }
