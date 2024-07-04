@@ -38,6 +38,7 @@ android {
 
     buildFeatures {
         buildConfig = true
+        dataBinding = true
     }
 }
 
@@ -55,6 +56,8 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
+
+    implementation(libs.glide)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

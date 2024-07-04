@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.Request
@@ -14,6 +15,7 @@ import com.android.volley.toolbox.StringRequest
 import com.devmobile.mobilenewproject.BuildConfig
 import com.devmobile.mobilenewproject.R
 import com.devmobile.mobilenewproject.data.repositories.ProductRepository
+import com.devmobile.mobilenewproject.databinding.FragmentLoginBinding
 import com.devmobile.mobilenewproject.models.api.LoginAPIRequestModel
 import com.devmobile.mobilenewproject.models.api.LoginAPIResponseModel
 import com.devmobile.mobilenewproject.utils.extensions.VolleyRequestQueue
@@ -21,19 +23,26 @@ import com.devmobile.mobilenewproject.utils.extensions.logErrorMessage
 import com.devmobile.mobilenewproject.utils.extensions.showToast
 import com.google.gson.Gson
 
-class LoginFragment: Fragment() {
+class LoginFragment: Fragment(), LoginFragmentListener {
 
 
     private var usernameEditText: EditText? = null
     private var passwordEditText: EditText? = null
 
+    private lateinit var binding: FragmentLoginBinding
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
-        return view
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+
+        binding.listener = this // va fi setat in xml (avem actiunea de Login Register Forgot)
+
+        return binding.root
+
     }
     // Go to Register Fragment
     @SuppressLint("SetTextI18n")
@@ -49,19 +58,10 @@ class LoginFragment: Fragment() {
             passwordEditText?.setText("83r5^_")
         }
 
-        val button = view.findViewById<Button>(R.id.btn_sign_up)
-        button.setOnClickListener {
-            goToRegister()
-
-        }
-
-        view.findViewById<Button>(R.id.btn_login).setOnClickListener {
-            doLogin()
-        }
     }
 
     // Go to Register Fragment
-    private fun goToRegister() {
+    override fun goToRegister() {
         val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
         findNavController().navigate(action)
     }
@@ -73,7 +73,7 @@ class LoginFragment: Fragment() {
     }
 
 
-    private fun doLogin() {
+    override fun doLogin() {
 
         //validare null sau empty
         val username = when (usernameEditText?.text?.isNotEmpty()) {
@@ -124,5 +124,14 @@ class LoginFragment: Fragment() {
         VolleyRequestQueue.addToRequestQueue(stringRequest)
 
     }
+    override fun forgotPassword() {
+    }
+
+}
+
+interface LoginFragmentListener {
+    fun doLogin()
+    fun forgotPassword()
+    fun goToRegister()
 
 }
