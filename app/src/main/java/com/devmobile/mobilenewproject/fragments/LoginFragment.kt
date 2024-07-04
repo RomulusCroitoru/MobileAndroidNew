@@ -49,13 +49,10 @@ class LoginFragment: Fragment() {
             passwordEditText?.setText("83r5^_")
         }
 
-        val button = view.findViewById<Button>(R.id.btn_register)
+        val button = view.findViewById<Button>(R.id.btn_sign_up)
         button.setOnClickListener {
-            //goToRegister()
+            goToRegister()
 
-            ProductRepository.getCategoryWithProducts {categoriesWithProducts ->
-                "Data found".logErrorMessage()
-            }
         }
 
         view.findViewById<Button>(R.id.btn_login).setOnClickListener {
