@@ -6,9 +6,14 @@
 
     <variable
         name="listener"
-        type = "com.devmobile.mobilenewproject.fragments.LoginFragmentListener">
+        type = "com.devmobile.mobilenewproject.ui.login.LoginFragmentListener">
 
     </variable>
+
+        <variable
+        name="viewModel"
+        type = "com.devmobile.mobilenewproject.ui.login.LoginFragmentviewModel"/>
+
 
     </data>
 
@@ -45,7 +50,9 @@
             <TextView
                 style="@style/FormSectionTextView.AuthentificationUsername"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TextView>
+                android:layout_height="wrap_content">
+
+            </TextView>
 
             <Space
                 android:layout_width="wrap_content"
@@ -57,7 +64,8 @@
                 android:id="@+id/et_username"
                 style="@style/FormSectionEditText.AuthenticationUsername"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.username}">
 
             </EditText>
 
@@ -70,7 +78,8 @@
             <TextView
                 style="@style/FormSectionTextView.AuthentificationPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TextView>
+                android:layout_height="wrap_content">
+            </TextView>
 
             <Space
                 android:layout_width="wrap_content"
@@ -83,7 +92,8 @@
                 android:id="@+id/et_password"
                 style="@style/FormSectionEditText.AuthenticationPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.password}">
 
             </EditText>
 
@@ -113,10 +123,10 @@
             android:onClick="@{() -> listener.doLogin()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/ll_form_data"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/ll_form_data"
             app:layout_constraintTop_toBottomOf="@id/ll_form_data"
-            app:layout_constraintVertical_bias="0.25" />
-
+            app:layout_constraintVertical_bias="0.247" />
 
         <LinearLayout
             android:layout_width="0dp"

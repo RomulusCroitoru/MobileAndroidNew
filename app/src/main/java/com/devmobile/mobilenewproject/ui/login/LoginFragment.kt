@@ -1,22 +1,20 @@
-package com.devmobile.mobilenewproject.fragments
+package com.devmobile.mobilenewproject.ui.login
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.devmobile.mobilenewproject.BuildConfig
 import com.devmobile.mobilenewproject.R
-import com.devmobile.mobilenewproject.data.repositories.ProductRepository
 import com.devmobile.mobilenewproject.databinding.FragmentLoginBinding
-import com.devmobile.mobilenewproject.models.api.LoginAPIRequestModel
 import com.devmobile.mobilenewproject.models.api.LoginAPIResponseModel
 import com.devmobile.mobilenewproject.utils.extensions.VolleyRequestQueue
 import com.devmobile.mobilenewproject.utils.extensions.logErrorMessage
@@ -26,10 +24,10 @@ import com.google.gson.Gson
 class LoginFragment: Fragment(), LoginFragmentListener {
 
 
-    private var usernameEditText: EditText? = null
-    private var passwordEditText: EditText? = null
 
     private lateinit var binding: FragmentLoginBinding
+
+    private val viewModel: LoginFragmentviewModel by viewModels()
 
 
     override fun onCreateView(
@@ -40,22 +38,22 @@ class LoginFragment: Fragment(), LoginFragmentListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
 
         binding.listener = this // va fi setat in xml (avem actiunea de Login Register Forgot)
+        binding.viewModel = viewModel // am legat view model de parametru din layout
 
         return binding.root
 
     }
     // Go to Register Fragment
-    @SuppressLint("SetTextI18n")
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        usernameEditText = view.findViewById(R.id.et_username)
-        passwordEditText = view.findViewById(R.id.et_password)
-
         //daca suntem in debug mode seteaza username si password
+        // ii dau o valoiare acestui parametru si acesta mi o va afisa in fragment login
         if(BuildConfig.DEBUG){
-            usernameEditText?.setText("mor_2314")
-            passwordEditText?.setText("83r5^_")
+            viewModel.username.set("mor_2314")
+            viewModel.password.set("83r5^_")
         }
 
     }
@@ -76,15 +74,15 @@ class LoginFragment: Fragment(), LoginFragmentListener {
     override fun doLogin() {
 
         //validare null sau empty
-        val username = when (usernameEditText?.text?.isNotEmpty()) {
-            true -> usernameEditText?.text.toString()
+        val username = when (viewModel.username.get()?.isNotEmpty()) {
+            true -> viewModel.username.get() ?: ""
             else -> {
                 getString(R.string.authentication_invalid_username).showToast(context)
                 return
             }
         }
-        val password = when (passwordEditText?.text?.isNotEmpty()) {
-            true -> passwordEditText?.text.toString()
+        val password = when (viewModel.password.get()?.isNotEmpty()) {
+            true -> viewModel.password.get() ?: ""
             else -> {
                 getString(R.string.authentication_invalid_password).showToast(context)
                 return
