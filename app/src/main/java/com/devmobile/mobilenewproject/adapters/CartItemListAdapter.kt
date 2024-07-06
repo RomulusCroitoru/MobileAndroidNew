@@ -21,12 +21,16 @@ class CartItemListAdapter(
 
 
     //suprascriem metoda getItemViewTipe si preluam key-ul din enum
+    // facem diferenta intre celula de product si celula de category
     override fun getItemViewType(position: Int) = cartItemList[position].type.key
 
     //scroll create viewholder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         //obtinem contextul in care se gaseste parintele (parent)
         val inflater = LayoutInflater.from(parent.context)
+
+        //in functie de key-ul obtinut de getItemViewType ia view-ul corespunzator
+        //pentru product model
 
        return when( viewType){
             CartItemType.PRODUCT.key -> {
@@ -51,7 +55,9 @@ class CartItemListAdapter(
     }
 
 
-    //dam valoare view urilor din viewHolder cu obiecte de tip Product model cu apelativul it prin elvis metod
+    //dam valoare view urilor din viewHolder
+    //cu obiecte de tip Product model cu apelativul it prin elvis metod
+    // obtinem modelul din lista de produse
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val model = cartItemList.getOrNull(position) ?: return
@@ -66,6 +72,7 @@ class CartItemListAdapter(
     }
 
     //celula de product cu obiecte de product
+    //se ocupa de asignarea valorilor pt fiecare view in parte si pt fiecare item din lista
     inner class ProductViewHolder (private val view: View): RecyclerView.ViewHolder(view) {
 
 
@@ -88,7 +95,6 @@ class CartItemListAdapter(
     }
 
     //celula de category cu obiecte de category
-
     inner class ProductCategoryViewHolder (private val view: View): RecyclerView.ViewHolder(view) {
 
 

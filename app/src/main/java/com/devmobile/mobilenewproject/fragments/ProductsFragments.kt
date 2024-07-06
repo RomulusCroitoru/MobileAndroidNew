@@ -33,7 +33,7 @@ class ProductsFragments : Fragment() {
         CartItemListAdapter(cartItemList)
     }
 
-
+ //legatura cu layaoutul fragmentului fragment_products
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,6 +48,8 @@ class ProductsFragments : Fragment() {
 
         getProducts()
     }
+
+    // spunem rcyclerview-ului in ce fel sa afiseze elementele
     private fun setupRecyclerView() {
 
         val layoutManager = LinearLayoutManager(context)
@@ -60,6 +62,9 @@ class ProductsFragments : Fragment() {
 
     }
 
+
+    // comunicare cu serverul , requestul.
+    // preluare date de la server
     @SuppressLint("SuspiciousIndentation")
     private  fun getProducts()
     {
@@ -84,6 +89,8 @@ class ProductsFragments : Fragment() {
 
     }
 
+    // deserializare json in lista de produse
+    // inserare elemente in lista de produse
     private fun handleProductsResponse(response: String) {
 
         //deserializare json in lista de produse

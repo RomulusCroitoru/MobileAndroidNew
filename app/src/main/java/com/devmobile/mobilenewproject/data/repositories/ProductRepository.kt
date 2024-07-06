@@ -10,6 +10,7 @@ import com.devmobile.mobilenewproject.models.db.ProductDBModel
 object ProductRepository {
 
 
+    //comunicam cu DAO - data access object
 fun insert(model: ProductAPIResponseModel, onFinish: () -> Unit) {
     val product = ProductDBModel(
             id = model.id,

@@ -11,6 +11,8 @@ import com.devmobile.mobilenewproject.models.db.ProductDBModel
     ProductDBModel::class,
     ProductCategoryDBModel::class
                      ], version = 2)
+
+// Creaza Data Base model
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val productDao: ProductDAO

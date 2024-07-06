@@ -6,7 +6,7 @@
 
     <variable
         name="listener"
-        type = "com.devmobile.mobilenewproject.ui.login.LoginFragmentListener">
+        type = "com.devmobile.mobilenewproject.fragments.LoginFragmentListener">
 
     </variable>
 

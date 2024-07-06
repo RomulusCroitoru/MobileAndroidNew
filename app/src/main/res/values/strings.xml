@@ -16,4 +16,7 @@
     <string name="authentication_action_go_to_register">Sign up</string>
     <string name="authentication_hint_no_account">Don\'t have an account?</string>
     <string name="materie">Dezvoltare software pentru dispozitive mobile</string>
+    <string name="email_msg">Email</string>
+    <string name="password_msg">Password</string>
+    <string name="confirm_password_msg">Confirm Password</string>
 </resources>

@@ -2,6 +2,8 @@ package com.devmobile.mobilenewproject.models.api
 
 import com.google.gson.annotations.SerializedName
 
+
+//folosit pt gson
 data class ProductAPIResponseModel (
 
     val id: Int,

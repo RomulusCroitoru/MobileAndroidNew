@@ -1,11 +1,9 @@
-package com.devmobile.mobilenewproject.ui.login
+package com.devmobile.mobilenewproject.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +14,7 @@ import com.devmobile.mobilenewproject.BuildConfig
 import com.devmobile.mobilenewproject.R
 import com.devmobile.mobilenewproject.databinding.FragmentLoginBinding
 import com.devmobile.mobilenewproject.models.api.LoginAPIResponseModel
+import com.devmobile.mobilenewproject.ui.login.LoginFragmentviewModel
 import com.devmobile.mobilenewproject.utils.extensions.VolleyRequestQueue
 import com.devmobile.mobilenewproject.utils.extensions.logErrorMessage
 import com.devmobile.mobilenewproject.utils.extensions.showToast
@@ -30,6 +29,7 @@ class LoginFragment: Fragment(), LoginFragmentListener {
     private val viewModel: LoginFragmentviewModel by viewModels()
 
 
+    //spunem fragmentului ce  layout sa foloseasca (fragment_login)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,7 +43,6 @@ class LoginFragment: Fragment(), LoginFragmentListener {
         return binding.root
 
     }
-    // Go to Register Fragment
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,6 +73,7 @@ class LoginFragment: Fragment(), LoginFragmentListener {
     override fun doLogin() {
 
         //validare null sau empty
+        // invalid user or password
         val username = when (viewModel.username.get()?.isNotEmpty()) {
             true -> viewModel.username.get() ?: ""
             else -> {

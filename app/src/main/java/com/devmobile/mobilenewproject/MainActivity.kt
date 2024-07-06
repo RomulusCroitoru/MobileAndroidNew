@@ -18,7 +18,8 @@ class MainActivity : AppCompatActivity() {
 
         "onCreate".logErrorMessage()
 
-        // fun apasa buton press me
+        // fun apasa buton press me, ii creem o instanta si ii atribuim
+        // pe on click go to second activity
         val button = findViewById<Button>(R.id.btn_press)
        button.setOnClickListener (object : View.OnClickListener {
            override fun onClick(v: View?) {
