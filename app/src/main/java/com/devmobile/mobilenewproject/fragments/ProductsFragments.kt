@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest
 import com.devmobile.mobilenewproject.R
 import com.devmobile.mobilenewproject.adapters.CartItemListAdapter
 import com.devmobile.mobilenewproject.data.repositories.ProductRepository
+import com.devmobile.mobilenewproject.managers.SharedPrefsManager
 import com.devmobile.mobilenewproject.models.CartItemModel
 import com.devmobile.mobilenewproject.models.CategoryModel
 import com.devmobile.mobilenewproject.models.ProductModel
@@ -72,7 +73,7 @@ class ProductsFragments : Fragment() {
         val url = "https://fakestoreapi.com/products"
 
         // Request a string response from the provided URL. (apelare api si callback pt raps/eroare)
-        val stringRequest = StringRequest(
+        val stringRequest = object:StringRequest(
         Request.Method.GET, url,
         { response ->
             // Display the first 500 characters of the response string.
@@ -82,6 +83,18 @@ class ProductsFragments : Fragment() {
         {
             "That didn't work!".logErrorMessage()
         })
+        {
+            //avem tokenul de autorizare si il trimitem in header
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+
+                SharedPrefsManager.readToken()?.let {token ->
+                headers["Authorization"] = "Bearer $token"
+                }
+
+                return super.getHeaders()
+            }
+        }
 
             // Add the request to the RequestQueue.
             //folosesc coada noastra

@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest
 import com.devmobile.mobilenewproject.BuildConfig
 import com.devmobile.mobilenewproject.R
 import com.devmobile.mobilenewproject.databinding.FragmentLoginBinding
+import com.devmobile.mobilenewproject.managers.SharedPrefsManager
 import com.devmobile.mobilenewproject.models.api.LoginAPIResponseModel
 import com.devmobile.mobilenewproject.ui.login.LoginFragmentviewModel
 import com.devmobile.mobilenewproject.utils.extensions.VolleyRequestQueue
@@ -96,6 +97,7 @@ class LoginFragment: Fragment(), LoginFragmentListener {
 
         val url = "https://fakestoreapi.com/auth/login"
 
+        //primim tokenul de la server si transformam raspunsul iar tokenul il salvam in share preferences
         //trimitem tokenul at cand se realizeaza loginul si ne redirectionam catre products
         //(apelare api si callback pt raps/eroare)
         val stringRequest = object : StringRequest(
@@ -104,6 +106,9 @@ class LoginFragment: Fragment(), LoginFragmentListener {
             { response ->
                 Gson().fromJson(response, LoginAPIResponseModel::class.java).let { responseModel ->
                     responseModel.token.showToast(context)
+
+                    SharedPrefsManager.writeToken(responseModel.token)
+
                     goToProducts()
                 }
             },
